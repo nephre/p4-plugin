@@ -532,7 +532,7 @@ public class PerforceScm extends SCM {
 		if (run instanceof FreeStyleBuild) {
 			String p4CleanWorkspace;
 			EnvVars envVars = run.getEnvironment(listener);
-			p4CleanWorkspace = envVars.getOrDefault("P4CLEANWORKSPACE", "false");
+			p4CleanWorkspace = envVars.getOrDefault("P4_CLEANWORKSPACE", "false");
 
 			if (p4CleanWorkspace.equals("true") && populate instanceof SyncOnlyImpl) {
 				listener.getLogger().println("P4: Wiping workspace...");
