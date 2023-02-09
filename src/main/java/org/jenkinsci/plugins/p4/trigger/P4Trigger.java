@@ -167,7 +167,7 @@ public class P4Trigger extends Trigger<Job<?, ?>> {
 		 * @param out XML output
 		 * @throws IOException push up stack
 		 */
-		@SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED", justification = "This is called from P4TriggerAction Jelly")
+		@SuppressFBWarnings(value = "RV_RETURN_VALUE_IGNORED", justification = "This might get called by Jenkins with reflections.")
 		public void writeLogTo(XMLOutput out) throws IOException {
 			new AnnotatedLargeText<P4TriggerAction>(getLogFile(job), Charset.defaultCharset(), true, this).writeHtmlTo(0,
 					out.asWriter());
