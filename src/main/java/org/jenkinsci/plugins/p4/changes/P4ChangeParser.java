@@ -54,7 +54,7 @@ public class P4ChangeParser extends ChangeLogParser {
 			P4ChangeSet changeSet = handler.getChangeLogSet();
 			return changeSet;
 		} catch (Exception e) {
-			logger.severe("Could not parse Perforce changelog: " + file.toString());
+			logger.severe("Could not parse Perforce changelog: " + file.toString() + ", error: " + e.getMessage());
 		}
 		return new P4ChangeSet(run, browser, new ArrayList<>());
 	}
