@@ -59,16 +59,10 @@ import org.jenkinsci.plugins.p4.workspace.StaticWorkspaceImpl;
 import org.jenkinsci.plugins.p4.workspace.TemplateWorkspaceImpl;
 import org.jenkinsci.plugins.p4.workspace.Workspace;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.net.URLDecoder;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -492,9 +486,18 @@ public class ClientHelper extends ConnectionHelper {
 
 	private void silentlyForceDelete(String root) throws IOException {
 		try {
-			FileUtils.forceDelete(new File(root));
+			File file = new File(root);
+			if (! file.isDirectory()) {
+				FileUtils.forceDelete(file);
+			} else {
+				FileUtils.deleteDirectory(file);
+			}
 		} catch (FileNotFoundException ignored) {
 			// ignore
+		} catch (NoSuchFileException ignored) {
+			// ignore as well
+		} catch (UncheckedIOException ignored) {
+			// keep ignoring...
 		} catch (IOException alt) {
 			log("Unable to delete, trying alternative method... " + alt.getLocalizedMessage());
 
